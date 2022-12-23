@@ -1,15 +1,17 @@
 import shortid from 'shortid';
 import { Form, FormInput, FormBtn } from './ContactForm.styled';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { add } from '../redux/contactsSlice';
 
 export const ContactForm = () => {
   const nameInputIdFirst = shortid.generate();
   const nameInputIdSecond = shortid.generate();
 
+  const contacts = useSelector(state => state.contacts);
+
   const dispatch = useDispatch();
-  
+
   const handleSubmit = e => {
     e.preventDefault();
 
@@ -19,11 +21,22 @@ export const ContactForm = () => {
       [e.target.elements.number.name]: e.target.elements.number.value,
     };
 
+    const includesName = contacts.find(
+      contact =>
+        contact.name.toLocaleLowerCase() ===
+        obj[e.target.elements.name.name].toLocaleLowerCase()
+    );
+
+    if (includesName) {
+      alert(`${e.target.elements.name.name} is already in contacts`);
+      e.target.reset();
+      return;
+    }
+
     dispatch(add(obj));
-    
+
     e.target.reset();
   };
-
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -49,4 +62,3 @@ export const ContactForm = () => {
     </Form>
   );
 };
-

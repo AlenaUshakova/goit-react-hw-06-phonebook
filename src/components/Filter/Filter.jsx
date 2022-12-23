@@ -11,10 +11,6 @@ export const Filter = () => {
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
-  const changeFilter = e => {
-    dispatch(change(e.currentTarget.value));
-  };
-
   return (
     <div>
       <FilterStyle htmlFor={nameInputIdThird}>
@@ -24,10 +20,8 @@ export const Filter = () => {
         id={nameInputIdThird}
         type="text"
         value={filter}
-        onChange={changeFilter}
+        onChange={e => dispatch(change(e.currentTarget.value))}
       />
     </div>
   );
 };
-
-

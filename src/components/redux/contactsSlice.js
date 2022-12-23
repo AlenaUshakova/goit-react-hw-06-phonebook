@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 
-const contactsSlice = createSlice({
+export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: [
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -12,14 +10,6 @@ const contactsSlice = createSlice({
   ],
   reducers: {
     add(state, action) {
-      const includesName = state.find(
-        contact =>
-          contact.name.toLocaleLowerCase() ===
-          action.payload.name.toLocaleLowerCase()
-      );
-      if (includesName) {
-        return alert(`${action.payload.name} is already in contacts`);
-      }
       state.push(action.payload);
     },
 
@@ -28,15 +18,5 @@ const contactsSlice = createSlice({
     },
   },
 });
-
-const persistConfig = {
-  key: 'contacts',
-  storage,
-};
-
-export const contactsReducer = persistReducer(
-  persistConfig,
-  contactsSlice.reducer
-);
 
 export const { add, remove } = contactsSlice.actions;

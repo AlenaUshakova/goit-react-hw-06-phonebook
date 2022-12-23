@@ -10,14 +10,7 @@ export const ContactList = () => {
   const contacts = useSelector(state => state.contacts);
   const filter = useSelector(state => state.filter);
 
-  const getVisible = () => {
-    // const normalasedFilter = filter.toLowerCase();
-    return contacts.filter(contact => {
-      return contact.name.toLowerCase().includes(filter);
-    });
-  };
-
-  const visibleContacts = getVisible();
+  const visibleContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter))
 
   return (
     <ContactsList>
